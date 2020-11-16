@@ -36,20 +36,24 @@ module.exports.checkUser = async (req,res) => {
             res.send(err)
         res.json(user)
     })
-    //let user = await User.find({'authenticateMethod.local.email': req.body.username})
 }
-module.exports.updateUser = async (req,res) => {
-    let user = await User.findOne({_id: req.body._id})
-    if(user) {
-        user.fullName = req.body.fullName
-        user.address = req.body.address
-        user.phone = req.body.phone
-        user.password = req.body.password
-        user.bankId = req.body.bankId
-        user.workPlace = req.body.workPlace
-        user.save()
-        res.json(await user)
+module.exports.deleteUser = async (req,res) => {
+    try {
+        let idToDelete = req.body._id
+        const deletedUser = await User.findOneAndDelete({_id:idToDelete})
+        res.status(200).send(await {deletedUser})
     }
-    else
-        console.log('no user!')  
+    catch {
+        res.status(500).send('Error while trying to delete')
+    }
+}
+module.exports.updateUser = async (req, res) => {
+    try {
+        let fieldToUpdate = req.body
+        const newUser = await User.findOneAndUpdate({_id:req.body._id}, fieldToUpdate)
+        res.status(200).send(await {newUser})
+    }
+    catch {
+        res.status(500).send('Failed to update')
+    }
 }
