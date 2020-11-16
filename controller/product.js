@@ -11,6 +11,24 @@ module.exports.getById = async (req,res) => {
     let prod = await Product.find({_id: req.body.id})
     res.json(prod)
 }
-module.exports.update = async (req, res) => {
-    let prod = await Product()
+module.exports.deleteBook = async (req,res) => {
+    console.log(req.body)
+    try {
+        let idToDelete = req.body._id
+        const deletedProduct = await Product.findOneAndDelete({_id:idToDelete})
+        res.status(200).send(await {deletedProduct})
+    }
+    catch {
+        res.status(500).send('Error while trying to delete')
+    }
+}
+module.exports.updateBook = async (req, res) => {
+    try {
+        let fieldToUpdate = req.body
+        const newProduct = await Product.findOneAndUpdate({_id:req.body._id}, fieldToUpdate)
+        res.status(200).send(await {newProduct})
+    }
+    catch {
+        res.status(500).send('Failed to update')
+    }
 }

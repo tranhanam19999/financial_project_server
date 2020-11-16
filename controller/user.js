@@ -3,8 +3,27 @@ const User = require('../model/user')
 module.exports.index = (req,res) => {
     res.json('Hello user!')
 }
+module.exports.getAll = async (req,res) => {
+    let user = await User.find({})
+    res.json(user)
+}
+module.exports.getAdmin = async (req,res) => {
+    console.log('req.body ', req.body)
+    User.aggregate([
+        {
+            $match: {
+                'local.email': req.body.username,
+                'local.password': req.body.password,
+                'address': req.body.address
+            }
+        }
+    ], (err, user) => {
+        if(err)
+            res.send(err)
+        res.json(user)
+    })
+}
 module.exports.checkUser = async (req,res) => {
-    console.log(req.body.username + " " + req.body.password )
     User.aggregate([
         {
             $match: {
@@ -32,6 +51,5 @@ module.exports.updateUser = async (req,res) => {
         res.json(await user)
     }
     else
-        console.log('no user!')
-    
+        console.log('no user!')  
 }
