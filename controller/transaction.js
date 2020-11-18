@@ -1,3 +1,4 @@
+const e = require('express')
 const Transaction = require('../model/transaction')
 
 module.exports.index = async (req,res) => {
@@ -15,7 +16,7 @@ module.exports.createTrans = async (req,res) => {
         }),
         user: req.body.user,
         status: 'PENDING',
-        date: today.getDay() + '/' + today.getMonth() + '/' + today.getFullYear() 
+        date: today.getUTCDate() + '/' + today.getMonth() + '/' + today.getFullYear() 
               + ' at ' + 
               today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
     }
@@ -41,5 +42,25 @@ module.exports.deleteTran = async (req,res) => {
     }
     catch (e) {
         res.status(500).send('Error while deleting')
+    }
+}
+module.exports.approveTran = async (req,res) => {
+    try {
+        let fieldToUpdate = req.body
+        fieldToUpdate.status = "SUCCESS"
+        const newTran = await Transaction.findOneAndUpdate({_id:req.body._id}, fieldToUpdate)
+        res.status(200).send(await {newTran})
+    }
+    catch (e) {
+        res.status(500).send('Failed to update')
+    }
+}
+module.exports.getUsersTran = async (req,res) => {
+    try {
+        const trans = await Transaction.find({'user._id': req.body._id})
+        res.status(200).send(await trans)
+    }
+    catch (e) {
+        res.status(500).send('Error while getting users transaction')
     }
 }
