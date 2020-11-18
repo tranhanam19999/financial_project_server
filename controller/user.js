@@ -24,6 +24,7 @@ module.exports.getAdmin = async (req,res) => {
     })
 }
 module.exports.checkUser = async (req,res) => {
+    console.log('im body ', req.body)
     User.aggregate([
         {
             $match: {
