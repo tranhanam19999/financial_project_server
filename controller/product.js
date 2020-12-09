@@ -32,3 +32,14 @@ module.exports.updateBook = async (req, res) => {
         res.status(500).send('Failed to update')
     }
 }
+module.exports.createBook = async (req,res) => {
+    try {
+        const newBook = new Product(req.body)
+        const savedBook = await newBook.save()
+        res.status(200).send({ resBook: savedBook })
+        return
+    }
+    catch {
+        res.status(500).send('Failed to create')
+    }
+}

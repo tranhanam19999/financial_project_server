@@ -20,6 +20,7 @@ mongoose.connect(mongoURLLocal, { useNewUrlParser: true, useUnifiedTopology: tru
 const productRoute = require('./routes/product')
 const transactionRoute = require('./routes/transaction')
 const userRoute = require('./routes/user')
+const authRoute = require('./routes/auth')
 
 const app = express()
 app.use(cors())
@@ -33,6 +34,7 @@ app.get('/', (req,res) => {res.send("I have changed the world!")})
 app.use('/tran', transactionRoute)
 app.use('/user', userRoute)
 app.use('/prod', productRoute)
+app.use('/auth', authRoute)
 
 app.listen(4000, () => {
     console.log("Im listening!")

@@ -9,14 +9,14 @@ const productSchema = new mongoose.Schema({
         yearPublished: {type: String},
         author: {type: String},
         language: {type: String},
-        numberOfPages: {type: String}
+        numberOfPage: {type: String}
     },
     link: {
         demo: {type: String},
         full: {type: String},
     },
     price: {type: Number},
-    pictures: [{type: String}],
+    pictures: {type: String},
 	sale: {type: String}
 });
 const Product = mongoose.model('products', productSchema,'products');

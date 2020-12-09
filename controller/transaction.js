@@ -25,7 +25,9 @@ module.exports.createTrans = async (req,res) => {
     res.status(200).send({ trans: savedTrans })
 }
 module.exports.updateTran = async (req, res) => {
+    console.log('hi u enter this ', req.body)
     try {
+        console.log('hi u enter this ', req.body)
         let fieldToUpdate = req.body
         const newProduct = await Transaction.findOneAndUpdate({_id:req.body._id}, fieldToUpdate)
         res.status(200).send(await {newProduct})
